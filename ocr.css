@@ -1,3 +1,12 @@
+/* 업로드하기 버튼 비활성화 시 스타일 */
+button:disabled, button[disabled] {
+  background: #ccc !important;
+  color: #fff !important;
+  border: none !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+  box-shadow: none !important;
+}
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: var(--background-color);
