@@ -5,7 +5,8 @@
   <title>사진 속 텍스트 인식</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="ocr.css">
-  <script src="https://cdn.jsdelivr.net/gh/naptha/tesseract.js@v2.1.0/dist/tesseract.min.js"></script></head>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.0/dist/tesseract.min.js"></script>
+</head>
 <body>
   <div class="container">
     <!-- 상단 링크 제거 -->
@@ -46,14 +47,16 @@
     <div id="csvResult" style="display:none;"></div>
     <!-- CSV 다운로드 버튼 완전히 제거됨: 이미지 인식 완료 후에도 노출되지 않음 -->
 
-    <!-- 히스토리(저장 목록) 영역 및 전체 저장 버튼 제거 -->
+    <!-- 다운로드 링크(숨김) 및 누락된 요소 추가 -->
+    <a id="downloadLink" style="display:none;"></a>
+    <!-- 진행률 퍼센트 라벨이 없는 경우 대비 -->
+    <span id="progressPercent" style="display:none;"></span>
   </div>
   <!-- 저장된 결과 보기 버튼을 박스 외부 오른쪽 아래에 배치 -->
   <div style="width:100vw;max-width:100%;display:flex;justify-content:flex-end;align-items:flex-end;position:fixed;right:0;bottom:0;z-index:10;padding:0 32px 32px 0;box-sizing:border-box;pointer-events:auto;">
     <a href="ocr_history.html" style="color:#a1a1a1;font-size:15px;text-decoration:underline;font-weight:bold;">저장된 결과 보기</a>
   </div>
-  </div>
-  <script src="ocr.js"></script>
+  <script src="./ocr.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </body>
 </html>
