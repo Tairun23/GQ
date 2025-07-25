@@ -14,16 +14,23 @@
       <img src="logo.png" alt="Logo" class="logo">
     </div>
     <!-- 이름, 핸드폰번호 한 줄에 배치 (1:2 비율) -->
-    <div style="margin-bottom:2px;font-size:14px;font-weight:500;">이름</div>
     <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-      <input type="text" id="nameInput" placeholder="이름을 입력하세요" style="flex:1;">
-      <input type="tel" id="phoneInput" placeholder="핸드폰 번호를 입력하세요" style="flex:2;">
+      <div style="display:flex;flex-direction:column;flex:1;">
+        <label for="nameInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">이름</label>
+        <input type="text" id="nameInput" style="width:100%;">
+      </div>
+      <div style="display:flex;flex-direction:column;flex:2;">
+        <label for="phoneInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">핸드폰 번호</label>
+        <input type="tel" id="phoneInput" style="width:100%;">
+      </div>
     </div>
-    <div style="margin-bottom:2px;font-size:14px;font-weight:500;">메일 주소</div>
-    <input type="email" id="emailInput" placeholder="메일 주소를 입력하세요">
+    <div style="display:flex;flex-direction:column;margin-bottom:10px;">
+      <label for="emailInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">메일 주소</label>
+      <input type="email" id="emailInput">
+    </div>
     <!-- 파일 선택 버튼 오른쪽 정렬 제거 -->
-    <div style="margin-bottom:2px;font-size:14px;font-weight:500;">이미지 업로드</div>
-    <div style="margin-bottom: 10px;">
+    <div style="display:flex;flex-direction:column;margin-bottom:10px;">
+      <label for="imageInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">이미지 업로드</label>
       <input type="file" id="imageInput" accept="image/*">
     </div>
     <div class="agree" style="display:flex;align-items:center;gap:8px;margin:12px 0 0 0;">
@@ -36,7 +43,8 @@
     </div>
     <img id="imagePreview" src="#" alt="Image Preview" style="display:none;max-width:100%;margin:10px 0;" />
     <!-- 진행률 표시 영역 -->
-    <div id="progressContainer" style="display:none;">
+    <div id="progressContainer" style="display:none;"
+    >
       <div class="progressBar-bg" style="position:relative;width:100%;height:32px;background:#f1f1f1;border-radius:8px;overflow:hidden;">
         <div id="progressBar" class="progressBar-fg" style="background:#007bff;height:100%;width:0%;transition:width 0.3s;border-radius:8px;">
           <span id="progressLabel" style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#fff;font-weight:bold;">
