@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 텍스트 인식
   recognizeBtn.onclick = async () => {
+    recognizeBtn.disabled = true;
     const name = nameInput.value.trim();
     const phone = phoneInput.value.trim();
     const email = emailInput.value.trim();
@@ -180,9 +181,11 @@ document.addEventListener('DOMContentLoaded', function() {
       // 인식 완료 후 얼럿 및 초기화
       alert('텍스트 인식이 완료되었습니다.');
       resetUI();
+      recognizeBtn.disabled = false;
 
     } catch (e) {
       alert('텍스트 인식 실패: ' + e);
+      recognizeBtn.disabled = false;
     } finally {
       progressContainer.style.display = 'none';
     }
