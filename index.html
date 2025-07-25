@@ -18,20 +18,24 @@
       <div style="flex:1;">
         <label for="nameInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">이름</label>
         <input type="text" id="nameInput" style="width:100%;display:block;">
+        <div id="nameError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
       </div>
       <div style="flex:2;">
         <label for="phoneInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">핸드폰 번호</label>
         <input type="tel" id="phoneInput" style="width:100%;display:block;">
+        <div id="phoneError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
       </div>
     </div>
     <div style="margin-bottom:10px;">
       <label for="emailInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">메일 주소</label>
       <input type="email" id="emailInput" style="width:100%;display:block;">
+      <div id="emailError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
     </div>
     <!-- 파일 선택 버튼 오른쪽 정렬 제거 -->
     <div style="margin-bottom:10px;">
       <label for="imageInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">이미지 업로드</label>
       <input type="file" id="imageInput" accept="image/*" style="display:block;">
+      <div id="imageError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
     </div>
     <div class="agree" style="display:flex;align-items:center;gap:8px;margin:12px 0 0 0;">
       <input type="checkbox" id="privacyCheckbox" style="width:auto;margin:0;">
@@ -63,6 +67,99 @@
     <a href="./ocr_history.html" style="color:#007bff;font-size:15px;text-decoration:underline;font-weight:bold;">저장된 결과 보기</a>
   </div>
   <script src="./ocr.js"></script>
+  <script>
+    // 유효성 검사 함수
+    function validateName(value) {
+      return value.trim().length > 0;
+    }
+    function validatePhone(value) {
+      return /^01[0-9]-\d{3,4}-\d{4}$/.test(value.trim());
+    }
+    function validateEmail(value) {
+      return /^[\w.-]+@[\w.-]+\.[A-Za-z]{2,}$/.test(value.trim());
+    }
+    function validateImage(fileInput) {
+      return fileInput.files.length > 0;
+    }
+
+    function showError(inputId, message) {
+      document.getElementById(inputId).style.display = 'block';
+      document.getElementById(inputId).textContent = message;
+    }
+    function hideError(inputId) {
+      document.getElementById(inputId).style.display = 'none';
+      document.getElementById(inputId).textContent = '';
+    }
+
+    function setInputError(input, hasError) {
+      if (hasError) {
+        input.style.borderColor = '#d32f2f';
+      } else {
+        input.style.borderColor = '';
+      }
+    }
+
+    document.getElementById('recognizeBtn').addEventListener('click', function(e) {
+      let valid = true;
+      const nameInput = document.getElementById('nameInput');
+      const phoneInput = document.getElementById('phoneInput');
+      const emailInput = document.getElementById('emailInput');
+      const imageInput = document.getElementById('imageInput');
+
+      // 이름
+      if (!validateName(nameInput.value)) {
+        showError('nameError', '이름을 입력해주세요.');
+        setInputError(nameInput, true);
+        valid = false;
+      } else {
+        hideError('nameError');
+        setInputError(nameInput, false);
+      }
+      // 핸드폰 번호
+      if (!validatePhone(phoneInput.value)) {
+        showError('phoneError', "올바른 형식의 핸드폰 번호를 입력해주세요. (예: 010-1234-5678)");
+        setInputError(phoneInput, true);
+        valid = false;
+      } else {
+        hideError('phoneError');
+        setInputError(phoneInput, false);
+      }
+      // 이메일
+      if (!validateEmail(emailInput.value)) {
+        showError('emailError', '올바른 이메일 주소를 입력해주세요.');
+        setInputError(emailInput, true);
+        valid = false;
+      } else {
+        hideError('emailError');
+        setInputError(emailInput, false);
+      }
+      // 이미지
+      if (!validateImage(imageInput)) {
+        showError('imageError', '이미지를 업로드해주세요.');
+        setInputError(imageInput, true);
+        valid = false;
+      } else {
+        hideError('imageError');
+        setInputError(imageInput, false);
+      }
+
+      if (!valid) {
+        e.preventDefault();
+        return;
+      }
+      // 기존 alert 제거, 이후 정상 동작만 수행
+    });
+
+    // 입력값 변경 시 오류 메시지 및 테두리 제거
+    ['nameInput','phoneInput','emailInput','imageInput'].forEach(function(id) {
+      const el = document.getElementById(id);
+      el.addEventListener(id==='imageInput'?'change':'input', function() {
+        const errorId = id.replace('Input','Error');
+        hideError(errorId);
+        setInputError(el, false);
+      });
+    });
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </body>
 </html>
