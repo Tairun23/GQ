@@ -18,24 +18,24 @@
       <div style="flex:1;">
         <label for="nameInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">이름</label>
         <input type="text" id="nameInput" style="width:100%;display:block;">
-        <div id="nameError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
+        <div id="nameError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;text-align:left;"></div>
       </div>
       <div style="flex:2;">
         <label for="phoneInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">핸드폰 번호</label>
         <input type="tel" id="phoneInput" style="width:100%;display:block;">
-        <div id="phoneError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
+        <div id="phoneError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;text-align:left;"></div>
       </div>
     </div>
     <div style="margin-bottom:10px;">
       <label for="emailInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">메일 주소</label>
       <input type="email" id="emailInput" style="width:100%;display:block;">
-      <div id="emailError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
+      <div id="emailError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;text-align:left;"></div>
     </div>
     <!-- 파일 선택 버튼 오른쪽 정렬 제거 -->
     <div style="margin-bottom:10px;">
       <label for="imageInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">이미지 업로드</label>
       <input type="file" id="imageInput" accept="image/*" style="display:block;">
-      <div id="imageError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;"></div>
+      <div id="imageError" class="input-error" style="color:#d32f2f;font-size:13px;margin-top:2px;display:none;text-align:left;"></div>
     </div>
     <div class="agree" style="display:flex;align-items:center;gap:8px;margin:12px 0 0 0;">
       <input type="checkbox" id="privacyCheckbox" style="width:auto;margin:0;">
@@ -99,6 +99,37 @@
       }
     }
 
+    // 실시간 입력값 검사 및 오류 표시
+    function validateAndShow(input, errorId, validateFn, errorMsg) {
+      if (!validateFn(input.value)) {
+        showError(errorId, errorMsg);
+        setInputError(input, true);
+        return false;
+      } else {
+        hideError(errorId);
+        setInputError(input, false);
+        return true;
+      }
+    }
+    document.getElementById('nameInput').addEventListener('input', function() {
+      validateAndShow(this, 'nameError', validateName, '이름을 입력해주세요.');
+    });
+    document.getElementById('phoneInput').addEventListener('input', function() {
+      validateAndShow(this, 'phoneError', validatePhone, '올바른 형식의 핸드폰 번호를 입력해주세요. (예: 010-1234-5678)');
+    });
+    document.getElementById('emailInput').addEventListener('input', function() {
+      validateAndShow(this, 'emailError', validateEmail, '올바른 이메일 주소를 입력해주세요.');
+    });
+    document.getElementById('imageInput').addEventListener('change', function() {
+      if (!validateImage(this)) {
+        showError('imageError', '이미지를 업로드해주세요.');
+        setInputError(this, true);
+      } else {
+        hideError('imageError');
+        setInputError(this, false);
+      }
+    });
+
     document.getElementById('recognizeBtn').addEventListener('click', function(e) {
       let valid = true;
       const nameInput = document.getElementById('nameInput');
@@ -106,58 +137,30 @@
       const emailInput = document.getElementById('emailInput');
       const imageInput = document.getElementById('imageInput');
 
-      // 이름
       if (!validateName(nameInput.value)) {
         showError('nameError', '이름을 입력해주세요.');
         setInputError(nameInput, true);
         valid = false;
-      } else {
-        hideError('nameError');
-        setInputError(nameInput, false);
       }
-      // 핸드폰 번호
       if (!validatePhone(phoneInput.value)) {
-        showError('phoneError', "올바른 형식의 핸드폰 번호를 입력해주세요. (예: 010-1234-5678)");
+        showError('phoneError', '올바른 형식의 핸드폰 번호를 입력해주세요. (예: 010-1234-5678)');
         setInputError(phoneInput, true);
         valid = false;
-      } else {
-        hideError('phoneError');
-        setInputError(phoneInput, false);
       }
-      // 이메일
       if (!validateEmail(emailInput.value)) {
         showError('emailError', '올바른 이메일 주소를 입력해주세요.');
         setInputError(emailInput, true);
         valid = false;
-      } else {
-        hideError('emailError');
-        setInputError(emailInput, false);
       }
-      // 이미지
       if (!validateImage(imageInput)) {
         showError('imageError', '이미지를 업로드해주세요.');
         setInputError(imageInput, true);
         valid = false;
-      } else {
-        hideError('imageError');
-        setInputError(imageInput, false);
       }
-
       if (!valid) {
         e.preventDefault();
         return;
       }
-      // 기존 alert 제거, 이후 정상 동작만 수행
-    });
-
-    // 입력값 변경 시 오류 메시지 및 테두리 제거
-    ['nameInput','phoneInput','emailInput','imageInput'].forEach(function(id) {
-      const el = document.getElementById(id);
-      el.addEventListener(id==='imageInput'?'change':'input', function() {
-        const errorId = id.replace('Input','Error');
-        hideError(errorId);
-        setInputError(el, false);
-      });
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
