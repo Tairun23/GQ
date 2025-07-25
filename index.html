@@ -15,23 +15,23 @@
     </div>
     <!-- 이름, 핸드폰번호 한 줄에 배치 (1:2 비율) -->
     <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-      <div style="display:flex;flex-direction:column;flex:1;">
-        <label for="nameInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">이름</label>
-        <input type="text" id="nameInput" style="width:100%;">
+      <div style="flex:1;">
+        <label for="nameInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">이름</label>
+        <input type="text" id="nameInput" style="width:100%;display:block;">
       </div>
-      <div style="display:flex;flex-direction:column;flex:2;">
-        <label for="phoneInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">핸드폰 번호</label>
-        <input type="tel" id="phoneInput" style="width:100%;">
+      <div style="flex:2;">
+        <label for="phoneInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">핸드폰 번호</label>
+        <input type="tel" id="phoneInput" style="width:100%;display:block;">
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;margin-bottom:10px;">
-      <label for="emailInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">메일 주소</label>
-      <input type="email" id="emailInput">
+    <div style="margin-bottom:10px;">
+      <label for="emailInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">메일 주소</label>
+      <input type="email" id="emailInput" style="width:100%;display:block;">
     </div>
     <!-- 파일 선택 버튼 오른쪽 정렬 제거 -->
-    <div style="display:flex;flex-direction:column;margin-bottom:10px;">
-      <label for="imageInput" style="font-size:14px;font-weight:500;margin-bottom:4px;">이미지 업로드</label>
-      <input type="file" id="imageInput" accept="image/*">
+    <div style="margin-bottom:10px;">
+      <label for="imageInput" style="font-size:14px;font-weight:500;margin-bottom:4px;display:block;text-align:left;">이미지 업로드</label>
+      <input type="file" id="imageInput" accept="image/*" style="display:block;">
     </div>
     <div class="agree" style="display:flex;align-items:center;gap:8px;margin:12px 0 0 0;">
       <input type="checkbox" id="privacyCheckbox" style="width:auto;margin:0;">
