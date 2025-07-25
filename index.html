@@ -73,7 +73,7 @@
       return value.trim().length > 0;
     }
     function validatePhone(value) {
-      return /^01[0-9]{8}$/.test(value.trim());
+      return /^010\d{8}$/.test(value.trim());
     }
     function validateEmail(value) {
       return /^[\w.-]+@[\w.-]+\.[A-Za-z]{2,}$/.test(value.trim());
