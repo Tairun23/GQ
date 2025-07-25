@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>사진 속 텍스트 인식</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="ocr.css">
+  <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- 상단 링크 제거 -->
+    <div class="header">
+      <img src="logo.png" alt="Logo" class="logo">
+    </div>
+    <!-- 이름, 핸드폰번호 한 줄에 배치 (1:2 비율) -->
+    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+      <input type="text" id="nameInput" placeholder="이름을 입력하세요" style="flex:1;">
+      <input type="tel" id="phoneInput" placeholder="핸드폰 번호를 입력하세요" style="flex:2;">
+    </div>
+    <input type="email" id="emailInput" placeholder="메일 주소를 입력하세요">
+    <!-- 파일 선택 버튼 오른쪽 정렬 제거 -->
+    <div style="margin-bottom: 10px;">
+      <input type="file" id="imageInput" accept="image/*">
+    </div>
+    <div class="agree" style="display:flex;align-items:center;gap:8px;margin:12px 0 0 0;">
+      <input type="checkbox" id="privacyCheckbox" style="width:auto;margin:0;">
+      <label for="privacyCheckbox" style="margin:0;cursor:pointer;">개인정보 제공에 동의합니다.</label>
+    </div>
+    <div class="button-group">
+      <button id="recognizeBtn" disabled>업로드하기</button>
+      <button type="button" class="secondary" id="resetBtn">다시 등록하기</button>
+    </div>
+    <img id="imagePreview" src="#" alt="Image Preview">
+    <!-- 진행률 표시 영역 -->
+    <div id="progressContainer" style="display:none;">
+      <div class="progressBar-bg" style="position:relative;">
+        <div id="progressBar" class="progressBar-fg">
+          <span id="progressLabel" style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
+            인식 진행률 <span id="progressPercent"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- 인식된 텍스트와 CSV 결과 노출 제거 -->
+    <pre id="result" style="display:none;"></pre>
+    <div id="csvResult" style="display:none;"></div>
+    <!-- CSV 다운로드 버튼 완전히 제거됨: 이미지 인식 완료 후에도 노출되지 않음 -->
+
+    <!-- 히스토리(저장 목록) 영역 및 전체 저장 버튼 제거 -->
+  </div>
+  <!-- 저장된 결과 보기 버튼을 박스 외부 오른쪽 아래에 배치 -->
+  <div style="width:100vw;max-width:100%;display:flex;justify-content:flex-end;align-items:flex-end;position:fixed;right:0;bottom:0;z-index:10;padding:0 32px 32px 0;box-sizing:border-box;pointer-events:auto;">
+    <a href="ocr_history.html" style="color:#a1a1a1;font-size:15px;text-decoration:underline;font-weight:bold;">저장된 결과 보기</a>
+  </div>
+  </div>
+  <script src="ocr.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</body>
+</html>

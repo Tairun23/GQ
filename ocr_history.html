@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>OCR 결과 목록</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="ocr.css">
+</head>
+<body>
+  <div class="container" id="protectedContainer" style="display:none;">
+    <div style="width:100%;text-align:right;margin-bottom:10px;">
+      <a href="ocr_body.html" style="color:#007bff;font-size:15px;text-decoration:underline;font-weight:bold;">이미지 등록 페이지로 돌아가기</a>
+    </div>
+    <h2 style="font-size:18px;">저장된 OCR 결과 목록</h2>
+    <div style="text-align:right;margin-bottom:8px;">
+      <button id="deleteAllBtn" class="secondary" style="width:auto;padding:6px 18px;">전체 삭제</button>
+    </div>
+    <div id="historyList"></div>
+    <div style="width:100%;display:flex;justify-content:center;margin:40px 0 0 0;">
+      <a id="downloadAllCsvBtn" href="#" style="display:none;padding:12px 28px;background:#28a745;color:#fff;border-radius:6px;font-size:17px;text-decoration:none;font-weight:bold;box-shadow:0 2px 8px rgba(0,0,0,0.07);">CSV 전체 저장하기</a>
+    </div>
+    <div style="width:100%;display:flex;justify-content:center;margin:10px 0 0 0;">
+      <button id="sendAllEmailBtn" style="display:none;padding:12px 28px;background:#007bff;color:#fff;border-radius:6px;font-size:17px;font-weight:bold;box-shadow:0 2px 8px rgba(0,0,0,0.07);">CSV 전체 메일로 전송</button>
+    </div>
+  </div>
+  <div id="pinPromptContainer" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;">
+    <h2 style="font-size:20px;margin-bottom:18px;">히스토리 페이지 접근을 위해 6자리 PIN 번호를 입력하세요</h2>
+    <input type="password" id="pinInput" maxlength="6" pattern="\d{6}" style="font-size:22px;text-align:center;width:160px;padding:10px;margin-bottom:16px;border-radius:6px;border:1px solid #ccc;" placeholder="PIN 번호">
+    <button id="pinSubmitBtn" style="padding:10px 28px;font-size:18px;background:#007bff;color:#fff;border-radius:6px;font-weight:bold;border:none;cursor:pointer;">확인</button>
+    <div id="pinErrorMsg" style="color:#d00;margin-top:12px;display:none;font-size:15px;">잘못된 PIN 번호입니다.</div>
+  </div>
+  <script src="ocr_history.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    // 6자리 PIN 번호 (예시: 123456, 실제 배포시 변경 권장)
+    const VALID_PIN = '123456';
+    const pinPromptContainer = document.getElementById('pinPromptContainer');
+    const protectedContainer = document.getElementById('protectedContainer');
+    const pinInput = document.getElementById('pinInput');
+    const pinSubmitBtn = document.getElementById('pinSubmitBtn');
+    const pinErrorMsg = document.getElementById('pinErrorMsg');
+    pinSubmitBtn.onclick = function() {
+      const pin = pinInput.value.trim();
+      if (pin === VALID_PIN) {
+        pinPromptContainer.style.display = 'none';
+        protectedContainer.style.display = 'block';
+      } else {
+        pinErrorMsg.style.display = 'block';
+        pinInput.value = '';
+        pinInput.focus();
+      }
+    };
+    pinInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') pinSubmitBtn.click();
+    });
+  </script>
+</body>
+</html>
