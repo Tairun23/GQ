@@ -112,13 +112,25 @@
       }
     }
     document.getElementById('nameInput').addEventListener('input', function() {
-      validateAndShow(this, 'nameError', validateName, '이름을 입력해주세요.');
+      if (!validateAndShow(this, 'nameError', validateName, '이름을 입력해주세요.')) {
+        // 오류 표시
+      } else {
+        hideError('nameError');
+      }
     });
     document.getElementById('phoneInput').addEventListener('input', function() {
-      validateAndShow(this, 'phoneError', validatePhone, '올바른 형식의 핸드폰 번호를 입력해주세요. (예: 010-1234-5678)');
+      if (!validateAndShow(this, 'phoneError', validatePhone, '올바른 형식의 핸드폰 번호를 입력해주세요.')) {
+        // 오류 표시
+      } else {
+        hideError('phoneError');
+      }
     });
     document.getElementById('emailInput').addEventListener('input', function() {
-      validateAndShow(this, 'emailError', validateEmail, '올바른 이메일 주소를 입력해주세요.');
+      if (!validateAndShow(this, 'emailError', validateEmail, '올바른 이메일 주소를 입력해주세요.')) {
+        // 오류 표시
+      } else {
+        hideError('emailError');
+      }
     });
     document.getElementById('imageInput').addEventListener('change', function() {
       if (!validateImage(this)) {
