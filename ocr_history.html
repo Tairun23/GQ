@@ -64,21 +64,27 @@
     function renderHistoryList() {
       let data = [];
       try {
-        data = JSON.parse(localStorage.getItem('ocrHistory') || '[]');
-      } catch(e) {}
+        // localStorage에서 ocrHistory를 가져올 때, null이 아닌지 체크
+        const raw = localStorage.getItem('ocrHistory');
+        if (raw && raw !== 'undefined') {
+          data = JSON.parse(raw);
+        }
+      } catch(e) { data = []; }
       const historyList = document.getElementById('historyList');
       historyList.innerHTML = '';
       const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
-      if (!data.length) {
+      if (!Array.isArray(data) || !data.length) {
         historyList.innerHTML = '<div style="text-align:center;color:#888;font-size:16px;">저장된 데이터가 없습니다.</div>';
         deleteSelectedBtn.style.display = 'none';
         return;
       }
       let html = '<ul style="list-style:none;padding:0;margin:0;">';
       data.forEach((item, idx) => {
+        // item이 객체가 아니거나 text가 없으면 빈 문자열 처리
+        const text = (item && typeof item === 'object' && 'text' in item) ? item.text : String(item);
         html += `<li style="display:flex;align-items:center;margin-bottom:12px;background:#f9f9f9;padding:10px 12px;border-radius:7px;">
           <input type="checkbox" class="historyCheck" value="${idx}" style="margin-right:12px;">
-          <span style="flex:1;">${item.text ? item.text.replace(/\n/g,'<br>') : ''}</span>
+          <span style="flex:1;">${text ? text.replace(/\n/g,'<br>') : ''}</span>
         </li>`;
       });
       html += '</ul>';
